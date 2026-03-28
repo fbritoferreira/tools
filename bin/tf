@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Terraform wrapper script that loads .env file
+# Usage: ./tf.sh plan, ./tf.sh apply, etc.
+
+set -e
+
+# Load .env file if it exists
+if [ -f .env ]; then
+  echo "Loading environment from .env file..."
+  set -a
+  source .env
+  set +a
+else
+  echo "Warning: .env file not found. Create one from .env.example"
+  echo "Some operations (like backend access) may fail without R2 credentials."
+fi
+
+# Run terraform with all arguments passed to this script
+terraform "$@"
